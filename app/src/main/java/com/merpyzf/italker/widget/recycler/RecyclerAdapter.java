@@ -195,7 +195,7 @@ public abstract class RecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerAd
      *
      * @param <T>
      */
-    abstract class MyViewHolder<T> extends RecyclerView.ViewHolder {
+    protected abstract class MyViewHolder<T> extends RecyclerView.ViewHolder {
 
         //保存当前viewHolder中的data数据
         protected T mData = null;

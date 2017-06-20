@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.merpyzf.italker.base.BaseActivity;
+import com.merpyzf.italker.widget.recycler.RecyclerAdapter;
 
 import butterknife.BindView;
 
@@ -31,5 +32,29 @@ public class MainActivity extends BaseActivity {
 
             }
         });
+
+
+        new RecyclerAdapter<String>() {
+            @Override
+            public RecyclerAdapter<String>.MyViewHolder<String> onCreateMyViewHolder(View root, int viewType) {
+
+                return null;
+            }
+
+            @Override
+            protected int getItemViewType(String data, int position) {
+
+                return 0;
+            }
+
+            @Override
+            public void updata(String data, RecyclerAdapter.MyViewHolder viewHolder) {
+
+            }
+        };
+
     }
+
+
+
 }
