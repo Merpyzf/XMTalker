@@ -3,7 +3,7 @@
 
 
     <!-- Base application theme. -->
-    <style name="Theme.private" parent="Base.Theme.AppCompat">
+    <style name="Theme.private" parent="Theme.AppCompat">
         <!-- 复写3个主要的色彩. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -22,7 +22,7 @@
         <!--背景色-->
         <item name="android:windowBackground">@color/windowsBackground</item>
 
-        <!--设置没有title-->
+        <!--设置没有title  下面这几个属性各自的作用-->
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowNoTitle">true</item>

@@ -3,24 +3,19 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <ProgressBar
-        android:id="@+id/progressBar2"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <SeekBar
-        android:id="@+id/seekBar"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="10"
-        android:progress="3" />
+        android:src="@drawable/ic_app_bar_bg"
+        />
+   <Button
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+
+       />
+
+    <DatePicker
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></DatePicker>
+
 </LinearLayout>
