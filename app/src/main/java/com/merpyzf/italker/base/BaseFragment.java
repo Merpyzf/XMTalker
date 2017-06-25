@@ -34,7 +34,6 @@ public abstract class BaseFragment extends Fragment {
 
             //Fragment之间切换时每次都会调用onCreateView方法，导致每次Fragment的布局都重绘，无法保持Fragment原有状态
         if(mRoot == null) {
-
             View root = inflater.inflate(getContentLayoutId(), container, false);
             mRoot = root;
             initWidget(root);

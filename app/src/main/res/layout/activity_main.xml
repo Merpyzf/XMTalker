@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                tools:text="标题"
+                android:text="@string/menu_home"
                 android:textColor="@color/amber_50"
                 android:textAppearance="@style/TextAppearance.Title"
                 />
@@ -68,7 +68,6 @@
         android:id="@+id/fl_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorAccent"
         android:layout_marginBottom="@dimen/len_52"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         >
@@ -96,6 +95,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/len_52"
         android:layout_gravity="bottom"
+        app:menu="@menu/navigation_items"
+        android:clickable="true"
+        android:background="@color/white"
+        app:itemIconTint="@color/text_nav_selector"
+        app:itemTextColor="@color/text_nav_selector"
+        android:elevation="@dimen/len_4"
+        android:outlineProvider="bounds"
+        android:translationZ="8dp"
         ></android.support.design.widget.BottomNavigationView>
 
 

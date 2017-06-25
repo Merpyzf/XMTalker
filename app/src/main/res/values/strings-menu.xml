@@ -1,0 +1,10 @@
+<resources>
+
+
+    <string name="menu_home">主页</string>
+
+    <string name="menu_group">组群</string>
+
+    <string name="menu_contact">好友</string>
+
+</resources>
