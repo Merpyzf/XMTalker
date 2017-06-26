@@ -126,7 +126,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (mUnbinder != null) {
             mUnbinder.unbind();
         }
+
+        Log.i("wk","onDestroy");
         super.onDestroy();
+
+
+
 
     }
 }

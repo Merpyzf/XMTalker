@@ -5,11 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnticipateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -21,14 +21,17 @@ import com.merpyzf.italker.base.BaseActivity;
 import com.merpyzf.italker.fragment.main.ActiveFragment;
 import com.merpyzf.italker.fragment.main.ContactFragment;
 import com.merpyzf.italker.fragment.main.GroupFragment;
+import com.merpyzf.italker.helper.NavHelper;
 
+import net.qiujuer.genius.ui.Ui;
 import net.qiujuer.genius.ui.widget.FloatActionButton;
 
 import butterknife.BindView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
-public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements BottomNavigationView.OnNavigationItemSelectedListener
+,NavHelper.onTabChangedlistener<Integer>{
     @BindView(R.id.appbar)
     AppBarLayout mLyAppBar;
 
@@ -47,7 +50,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     //底部导航菜单
     @BindView(R.id.navigationView)
     BottomNavigationView mBottomNavigation;
-    private FragmentTransaction transaction;
+
+    private NavHelper<Integer> mNavHelper;
+
 
     @Override
     protected int getContentLayoutId() {
@@ -59,6 +64,15 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
     @Override
     protected void initWidget() {
         super.initWidget();
+
+
+        
+        mNavHelper = new NavHelper<>(this,R.id.fl_container,getSupportFragmentManager(),this);
+
+        mNavHelper.addTab(R.id.action_home,new NavHelper.Tab<Integer>(R.id.action_home,ActiveFragment.class,R.string.title_home));
+        mNavHelper.addTab(R.id.action_contact,new NavHelper.Tab<Integer>(R.id.action_contact,ContactFragment.class,R.string.title_contact));
+        mNavHelper.addTab(R.id.action_group,new NavHelper.Tab<Integer>(R.id.action_group,GroupFragment.class,R.string.title_group));
+
 
         mBottomNavigation.setOnNavigationItemSelectedListener(this);
         Glide.with(this)
@@ -80,64 +94,57 @@ public class MainActivity extends BaseActivity implements BottomNavigationView.O
 
     @Override
     protected void initData() {
-        super.initData();
+
+        //手动触发BottomNavigation的触摸事件,用于首次进入时能够进行填充Fragmnet
+        Menu menu = mBottomNavigation.getMenu();
+        menu.performIdentifierAction(R.id.action_home,0);
+
     }
 
-    private Boolean isFirst = true;
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        return mNavHelper.performMenuClick(item.getItemId());
+    }
 
+    @Override
+    public void onTabChanged(NavHelper.Tab<Integer> oldTab, NavHelper.Tab<Integer> newTab) {
 
-        int size = getSupportFragmentManager().getFragments().size();
+        Log.i("wk","oldTab==> "+oldTab.fragment+"newTab==> "+newTab);
 
-        Log.i("wk", "fragment的数量" + size);
+        mTvtitle.setText(newTab.extra);
 
-        switch (item.getItemId()) {
+        int translateY = 0;
+        int rotate = 0;
 
-            case R.id.action_home:
+        if(newTab.extra.equals(R.string.title_home)){
 
-                mTvtitle.setText(getResources().getText(R.string.title_home));
-                ActiveFragment activeFragment = null;
-                if (isFirst) {
+            Log.i("wk","首页");
+            translateY = (int) Ui.dipToPx(getResources(),76f);
 
-                    activeFragment = new ActiveFragment();
+        }else {
 
-                    transaction.add(R.id.fl_container, activeFragment);
+            if(newTab.extra.equals(R.string.title_group)){
 
-                    isFirst = false;
+                mFabAdd.setImageResource(R.drawable.ic_group_add);
+                rotate = -360;
 
-                }else {
+            }else {
 
-                    transaction.replace(R.id.fl_container,activeFragment);
+                mFabAdd.setImageResource(R.drawable.ic_contact_add);
+                rotate = 360;
+            }
 
-                }
-
-
-                break;
-
-            case R.id.action_group:
-                mTvtitle.setText(getResources().getText(R.string.title_group));
-                GroupFragment groupFragment = new GroupFragment();
-
-                transaction.replace(R.id.fl_container, new GroupFragment());
-
-
-                break;
-            case R.id.action_contact:
-
-                mTvtitle.setText(getResources().getText(R.string.title_contact));
-
-                transaction.replace(R.id.fl_container, new ContactFragment());
-                break;
         }
 
+        mFabAdd.animate()
+                .rotation(rotate)
+                .translationY(translateY)
+                .setDuration(200)
+                .setInterpolator(new AnticipateInterpolator(2))
+                .start();
 
-        transaction.commit();
-        //处理底部导航栏的点击事件,不然没有动画效果
-        return true;
+
     }
 }
